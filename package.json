@@ -1,6 +1,6 @@
 {
-  "scripts": {
-    "prettier": "node ./run/node_modules/prettier/bin/prettier.cjs --write \"README.md\" \"package.json\" \".prettierrc.js\" \".vscode/*.json\" \"src/**/*.json\"",
-    "prettier:check": "node ./run/node_modules/prettier/bin/prettier.cjs --check \"README.md\" \"package.json\" \".prettierrc.js\" \".vscode/*.json\" \"src/**/*.json\""
-  }
+    "scripts": {
+        "prettier": "node ./run/node_modules/prettier/bin/prettier.cjs --write \"README.md\" \"package.json\" \".prettierrc.js\" \".vscode/*.json\" \"src/**/*.json\"",
+        "prettier:check": "node ./run/node_modules/prettier/bin/prettier.cjs --check \"README.md\" \"package.json\" \".prettierrc.js\" \".vscode/*.json\" \"src/**/*.json\""
+    }
 }

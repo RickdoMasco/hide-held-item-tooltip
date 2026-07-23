@@ -1,4 +1,4 @@
-const baseConfig = require("./run/node_modules/@rickdomasco/prettier-config");
+const baseConfig = require('./run/node_modules/@rickdomasco/prettier-config');
 
 const { jsxBracketSameLine, ...prettierConfig } = baseConfig;
 
