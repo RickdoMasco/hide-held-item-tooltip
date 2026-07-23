@@ -1,38 +1,32 @@
 {
-	"schemaVersion": 1,
-	"id": "hhitmod",
-	"version": "${version}",
-	"name": "HHIT Mod",
-	"description": "This mod allow you to toggle the held item tooltip on and off.",
-	"authors": [
-		"Rick_doMasco"
-	],
-	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/RickdoMasco/hide-held-item-tooltip"
-	},
-	"license": "CC0-1.0",
-		"icon": "assets/modid/icon.png",
-	"environment": "*",
-	"entrypoints": {
-		"main": [
-			"com.rickdomasco.hidehelditemtooltip.HHITMod"
-		],
-		"client": [
-			"com.rickdomasco.hidehelditemtooltip.client.HHITModClient"
-		]
-	},
-	"mixins": [
-		"hhitmod.mixins.json",
-		{
-			"config": "hhitmod.client.mixins.json",
-			"environment": "client"
-		}
-	],
-	"depends": {
-		"fabricloader": ">=0.19.3",
-		"minecraft": "~26.1.2",
-		"java": ">=25",
-		"fabric-api": "*"
-	}
+    "schemaVersion": 1,
+    "id": "hhitmod",
+    "version": "${version}",
+    "name": "HHIT Mod",
+    "description": "Client-side mod that hides or shows the held item tooltip.",
+    "authors": ["Rick_doMasco"],
+    "contact": {
+        "homepage": "https://fabricmc.net/",
+        "sources": "https://github.com/RickdoMasco/hide-held-item-tooltip"
+    },
+    "license": "CC0-1.0",
+    "icon": "assets/hhitmod/icon.png",
+    "environment": "*",
+    "entrypoints": {
+        "main": ["com.rickdomasco.hidehelditemtooltip.HHITMod"],
+        "client": ["com.rickdomasco.hidehelditemtooltip.client.HHITModClient"]
+    },
+    "mixins": [
+        "hhitmod.mixins.json",
+        {
+            "config": "hhitmod.client.mixins.json",
+            "environment": "client"
+        }
+    ],
+    "depends": {
+        "fabricloader": ">=0.19.3",
+        "minecraft": "~26.1.2",
+        "java": ">=25",
+        "fabric-api": "*"
+    }
 }

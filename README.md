@@ -1,14 +1,34 @@
-# HHIT Mod (**H**ide **H**eld **I**tem **T**ooltip)
+# HHIT Mod
 
-## Description
+HHIT stands for Hide Held Item Tooltip.
 
-Hide the held item tooltip in-game.
+## What it does
 
+This mod hides the item-name tooltip that appears when you hold an item.
+It is client-side only.
 
-## Setup
+## Commands
 
-For setup instructions, please see the [Fabric Documentation page](https://docs.fabricmc.net/develop/getting-started/creating-a-project#setting-up) related to the IDE that you are using.
+Use the following local commands in chat:
+
+- `/hhit` toggles the setting
+- `/hhit on` forces the tooltip hidden
+- `/hhit off` forces the tooltip visible
+
+The command is case-insensitive.
+Your preference is saved in `config/hhitmod.properties`.
+
+## Client safety
+
+The mod only changes your local HUD and chat handling.
+It does not send gameplay packets or modify server state.
+
+I cannot guarantee the policy of any specific server or anti-cheat system.
+
+## Supported versions
+
+This repository is currently built and tested against Minecraft `26.1.2`.
 
 ## License
 
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+This project is distributed under the CC0-1.0 license.
