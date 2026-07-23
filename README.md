@@ -29,6 +29,16 @@ I cannot guarantee the policy of any specific server or anti-cheat system.
 
 This repository is currently built and tested against Minecraft `26.1.2`.
 
+## Build
+
+On Windows, build the mod from the project root with:
+
+```powershell
+.\gradlew.bat build
+```
+
+The compiled jar will be placed in `build/libs`.
+
 ## License
 
 This project is distributed under the CC0-1.0 license.
