@@ -10,31 +10,36 @@ import java.util.Properties;
 import net.fabricmc.loader.api.FabricLoader;
 
 public final class HHITConfig {
-	private static final Path CONFIG_FILE = FabricLoader.getInstance().getConfigDir().resolve(HHITMod.MOD_ID + ".properties");
+	private static final Path CONFIG_FILE = FabricLoader.getInstance()
+			.getConfigDir()
+			.resolve(HHITMod.MOD_ID + ".properties");
+
 	private static final String HIDE_HELD_ITEM_TOOLTIP_KEY = "hideHeldItemTooltip";
 
 	private HHITConfig() {
 	}
 
 	public static boolean loadHideHeldItemTooltip(boolean defaultValue) {
+		if (Files.notExists(CONFIG_FILE)) {
+			saveHideHeldItemTooltip(defaultValue);
+			return defaultValue;
+		}
+
 		Properties properties = new Properties();
-		boolean fileExists = Files.exists(CONFIG_FILE);
 
-		if (fileExists) {
-			try (InputStream inputStream = Files.newInputStream(CONFIG_FILE)) {
-				properties.load(inputStream);
-			} catch (IOException exception) {
-				HHITMod.LOGGER.warn("Failed to read HHIT config at {}. Using default value {}.", CONFIG_FILE, defaultValue, exception);
-				return defaultValue;
-			}
+		try (InputStream inputStream = Files.newInputStream(CONFIG_FILE)) {
+			properties.load(inputStream);
+		} catch (IOException exception) {
+			HHITMod.LOGGER.warn(
+					"Failed to read HHIT config at {}. Using default value {}.",
+					CONFIG_FILE,
+					defaultValue,
+					exception);
+			return defaultValue;
 		}
 
-		boolean enabled = Boolean.parseBoolean(properties.getProperty(HIDE_HELD_ITEM_TOOLTIP_KEY, Boolean.toString(defaultValue)));
-		if (!fileExists) {
-			saveHideHeldItemTooltip(enabled);
-		}
-
-		return enabled;
+		return Boolean.parseBoolean(
+				properties.getProperty(HIDE_HELD_ITEM_TOOLTIP_KEY, Boolean.toString(defaultValue)));
 	}
 
 	public static void saveHideHeldItemTooltip(boolean enabled) {

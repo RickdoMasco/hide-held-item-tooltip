@@ -22,8 +22,7 @@ public class HHITModClient implements ClientModInitializer {
 	}
 
 	public static boolean toggleHideHeldItemTooltip() {
-		hideHeldItemTooltip = !hideHeldItemTooltip;
-		HHITConfig.saveHideHeldItemTooltip(hideHeldItemTooltip);
+		setHideHeldItemTooltipEnabled(!hideHeldItemTooltip);
 		return hideHeldItemTooltip;
 	}
 }
