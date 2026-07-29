@@ -39,7 +39,7 @@ On Windows, build the mod from the project root with:
 
 The compiled jar will be placed in `build/libs`.
 
-## Available 
+## Availability 
 
 - [Modrint](https://modrinth.com/mod/hhit)
 
