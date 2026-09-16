@@ -27,7 +27,7 @@ public class ChatScreenMixin {
             return;
 
         if (addToRecent)
-            Minecraft.getInstance().gui.getChat().addRecentChat(normalized);
+            Minecraft.getInstance().gui.hud.getChat().addRecentChat(normalized);
 
         String argument = parts.length > 1 ? parts[1].trim() : "";
 
@@ -51,6 +51,8 @@ public class ChatScreenMixin {
     }
 
     private static void showHhitFeedback(@NonNull String message, @NonNull ChatFormatting color) {
-        Minecraft.getInstance().gui.getChat().addClientSystemMessage(Component.literal(message).withStyle(color));
+        Minecraft minecraft = Minecraft.getInstance();
+        if (minecraft.player != null)
+            minecraft.player.sendSystemMessage(Component.literal(message).withStyle(color));
     }
 }

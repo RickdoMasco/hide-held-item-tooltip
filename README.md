@@ -27,7 +27,7 @@ I cannot guarantee the policy of any specific server or anti-cheat system.
 
 ## Supported versions
 
-This repository is currently built and tested against Minecraft `26.1.2`.
+This repository is currently built and tested against Minecraft `26.2`.
 
 ## Build
 
