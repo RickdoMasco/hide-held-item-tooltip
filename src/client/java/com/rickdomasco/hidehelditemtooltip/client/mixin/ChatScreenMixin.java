@@ -1,6 +1,7 @@
 package com.rickdomasco.hidehelditemtooltip.client.mixin;
 
 import com.rickdomasco.hidehelditemtooltip.client.HHITModClient;
+import com.rickdomasco.hidehelditemtooltip.client.HHITSettingsScreen;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.ChatScreen;
@@ -31,9 +32,16 @@ public class ChatScreenMixin {
 
         String argument = parts.length > 1 ? parts[1].trim() : "";
 
-        if (!argument.isEmpty() && !argument.equalsIgnoreCase("on") && !argument.equalsIgnoreCase("off")) {
+        if (!argument.isEmpty() && !argument.equalsIgnoreCase("on") && !argument.equalsIgnoreCase("off") && !argument.equalsIgnoreCase("settings")) {
             showHhitFeedback("HHI(N)T: use \"/hhit\" to swap between hidden and visible tooltips", ChatFormatting.RED);
             showHhitFeedback("HHI(N)T: use \"/hhit on\" or \"/hhit off\" to pick an option", ChatFormatting.RED);
+            showHhitFeedback("HHI(N)T: use \"/hhit settings\" to open the HHIT settings UI", ChatFormatting.RED);
+            info.cancel();
+            return;
+        }
+
+        if (argument.equalsIgnoreCase("settings")) {
+            Minecraft.getInstance().setScreen(new HHITSettingsScreen((ChatScreen) (Object) this));
             info.cancel();
             return;
         }
@@ -51,6 +59,8 @@ public class ChatScreenMixin {
     }
 
     private static void showHhitFeedback(@NonNull String message, @NonNull ChatFormatting color) {
-        Minecraft.getInstance().gui.getChat().addClientSystemMessage(Component.literal(message).withStyle(color));
+        Minecraft minecraft = Minecraft.getInstance();
+        if (minecraft.player != null)
+            minecraft.player.sendSystemMessage(Component.literal(message).withStyle(color));
     }
 }
