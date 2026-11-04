@@ -1,6 +1,7 @@
 package com.rickdomasco.hidehelditemtooltip.client.mixin;
 
 import com.rickdomasco.hidehelditemtooltip.client.HHITModClient;
+import com.rickdomasco.hidehelditemtooltip.client.HHITSettingsScreen;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.ChatScreen;
@@ -31,9 +32,16 @@ public class ChatScreenMixin {
 
         String argument = parts.length > 1 ? parts[1].trim() : "";
 
-        if (!argument.isEmpty() && !argument.equalsIgnoreCase("on") && !argument.equalsIgnoreCase("off")) {
+        if (!argument.isEmpty() && !argument.equalsIgnoreCase("on") && !argument.equalsIgnoreCase("off") && !argument.equalsIgnoreCase("settings")) {
             showHhitFeedback("HHI(N)T: use \"/hhit\" to swap between hidden and visible tooltips", ChatFormatting.RED);
             showHhitFeedback("HHI(N)T: use \"/hhit on\" or \"/hhit off\" to pick an option", ChatFormatting.RED);
+            showHhitFeedback("HHI(N)T: use \"/hhit settings\" to open the HHIT settings UI", ChatFormatting.RED);
+            info.cancel();
+            return;
+        }
+
+        if (argument.equalsIgnoreCase("settings")) {
+            Minecraft.getInstance().gui.setScreen(new HHITSettingsScreen((ChatScreen) (Object) this));
             info.cancel();
             return;
         }
