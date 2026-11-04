@@ -1,6 +1,7 @@
 package com.rickdomasco.hidehelditemtooltip.client.mixin;
 
 import com.rickdomasco.hidehelditemtooltip.client.HHITModClient;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -12,7 +13,8 @@ public class SelectedItemNameMixin {
 
 	@Inject(method = "extractSelectedItemName", at = @At("HEAD"), cancellable = true)
 	private void hideHeldItemTooltip(CallbackInfo info) {
-		if (HHITModClient.isHideHeldItemTooltipEnabled())
+		Minecraft minecraft = Minecraft.getInstance();
+		if (minecraft.player != null && HHITModClient.shouldHideHeldItemTooltip(minecraft.player.getMainHandItem()))
 			info.cancel();
 	}
 }

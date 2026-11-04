@@ -25,6 +25,11 @@ loom {
 	}
 }
 
+sourceSets.test {
+	compileClasspath += sourceSets.client.output
+	runtimeClasspath += sourceSets.client.output
+}
+
 dependencies {
 	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
@@ -32,6 +37,13 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+
+	testImplementation 'org.junit.jupiter:junit-jupiter:5.11.4'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.11.4'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
 }
 
 processResources {
