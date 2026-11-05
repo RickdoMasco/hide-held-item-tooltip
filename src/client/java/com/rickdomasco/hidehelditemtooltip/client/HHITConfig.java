@@ -20,32 +20,54 @@ public final class HHITConfig {
 	}
 
 	public static boolean loadHideHeldItemTooltip(boolean defaultValue) {
-		if (Files.notExists(CONFIG_FILE)) {
-			saveHideHeldItemTooltip(defaultValue);
+		Properties properties = loadProperties();
+		if (properties == null)
 			return defaultValue;
-		}
 
+		boolean enabled = Boolean.parseBoolean(
+				properties.getProperty(HIDE_HELD_ITEM_TOOLTIP_KEY, Boolean.toString(defaultValue)));
+		if (Files.notExists(CONFIG_FILE))
+			saveHideHeldItemTooltip(enabled);
+		return enabled;
+	}
+
+	public static void saveHideHeldItemTooltip(boolean enabled) {
+		Properties properties = loadProperties();
+		if (properties == null)
+			return;
+		properties.setProperty(HIDE_HELD_ITEM_TOOLTIP_KEY, Boolean.toString(enabled));
+		saveProperties(properties);
+	}
+
+	public static HHITBlacklist loadBlacklist() {
+		Properties properties = loadProperties();
+		return properties == null ? new HHITBlacklist() : HHITBlacklist.readFrom(properties);
+	}
+
+	public static void saveBlacklist(HHITBlacklist blacklist) {
+		Properties properties = loadProperties();
+		if (properties == null)
+			return;
+		blacklist.writeTo(properties);
+		saveProperties(properties);
+	}
+
+	private static Properties loadProperties() {
 		Properties properties = new Properties();
+		if (Files.notExists(CONFIG_FILE))
+			return properties;
 
 		try (InputStream inputStream = Files.newInputStream(CONFIG_FILE)) {
 			properties.load(inputStream);
 		} catch (IOException exception) {
-			HHITMod.LOGGER.warn(
-					"Failed to read HHIT config at {}. Using default value {}.",
-					CONFIG_FILE,
-					defaultValue,
-					exception);
-			return defaultValue;
+			HHITMod.LOGGER.warn("Failed to read HHIT config at {}.", CONFIG_FILE, exception);
+			return null;
 		}
 
-		return Boolean.parseBoolean(
-				properties.getProperty(HIDE_HELD_ITEM_TOOLTIP_KEY, Boolean.toString(defaultValue)));
+		return properties;
 	}
 
-	public static void saveHideHeldItemTooltip(boolean enabled) {
-		Properties properties = new Properties();
-		properties.setProperty(HIDE_HELD_ITEM_TOOLTIP_KEY, Boolean.toString(enabled));
-
+	private static void saveProperties(Properties properties) {
 		try {
 			Files.createDirectories(CONFIG_FILE.getParent());
 			try (OutputStream outputStream = Files.newOutputStream(CONFIG_FILE)) {
