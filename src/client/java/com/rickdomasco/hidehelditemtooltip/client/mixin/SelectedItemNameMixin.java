@@ -13,7 +13,7 @@ public class SelectedItemNameMixin {
 
 	@Inject(method = "extractSelectedItemName", at = @At("HEAD"), cancellable = true)
 	private void hideHeldItemTooltip(GuiGraphicsExtractor extractor, CallbackInfo info) {
-		if (HHITModClient.isHideHeldItemTooltipEnabled())
+		if (HHITModClient.isHideHeldItemTooltipEnabled() && !HHITModClient.isCurrentItemBlacklisted())
 			info.cancel();
 	}
 }
