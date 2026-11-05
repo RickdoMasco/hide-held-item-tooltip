@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.List;
 import java.util.Properties;
 import org.junit.jupiter.api.Test;
 
@@ -40,15 +41,16 @@ class HHITItemBlacklistTest {
 	}
 
 	@Test
-	void entriesForOnlyReturnsExceptionsThatApplyToTheSelectedItem() {
+	void entriesReturnsEverySavedException() {
 		HHITItemBlacklist blacklist = new HHITItemBlacklist();
 		blacklist.add("minecraft:diamond_sword", null);
 		blacklist.add("minecraft:diamond_sword", "Excalibur");
 		blacklist.add("minecraft:iron_sword", "Excalibur");
 
-		assertEquals(2, blacklist.entriesFor("minecraft:diamond_sword", "Excalibur").size());
-		assertEquals(1, blacklist.entriesFor("minecraft:diamond_sword", "Other").size());
-		assertEquals(1, blacklist.entriesFor("minecraft:diamond_sword", null).size());
+		assertEquals(List.of(
+				new HHITItemBlacklist.Entry("minecraft:diamond_sword", null),
+				new HHITItemBlacklist.Entry("minecraft:diamond_sword", "Excalibur"),
+				new HHITItemBlacklist.Entry("minecraft:iron_sword", "Excalibur")), blacklist.entries());
 	}
 
 	@Test

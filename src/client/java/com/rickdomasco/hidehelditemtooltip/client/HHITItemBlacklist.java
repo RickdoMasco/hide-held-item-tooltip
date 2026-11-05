@@ -31,13 +31,6 @@ public final class HHITItemBlacklist {
 		return List.copyOf(entries);
 	}
 
-	public List<Entry> entriesFor(String itemId, String customName) {
-		return entries.stream()
-				.filter(entry -> entry.itemId().equals(itemId)
-						&& (entry.customName() == null || entry.customName().equals(customName)))
-				.toList();
-	}
-
 	public void writeTo(Properties properties) {
 		properties.stringPropertyNames().stream()
 				.filter(key -> key.startsWith(PROPERTY_PREFIX))

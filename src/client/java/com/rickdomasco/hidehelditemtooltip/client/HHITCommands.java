@@ -76,16 +76,9 @@ public final class HHITCommands {
 	}
 
 	private static int list(FabricClientCommandSource source) {
-		ItemStack itemStack = source.getPlayer().getMainHandItem();
-		if (itemStack.isEmpty()) {
-			source.sendError(Component.literal("HHIT: hold an item in your main hand to use this command"));
-			return 0;
-		}
-
-		List<HHITItemBlacklist.Entry> entries = HHITModClient.getBlacklistedItems(itemStack);
+		List<HHITItemBlacklist.Entry> entries = HHITModClient.getBlacklistedItems();
 		if (entries.isEmpty()) {
-			sendFeedback(source, "HHIT: no exception applies to " + HHITModClient.getItemId(itemStack),
-					ChatFormatting.YELLOW);
+			sendFeedback(source, "HHIT: no saved exceptions", ChatFormatting.YELLOW);
 			return 1;
 		}
 

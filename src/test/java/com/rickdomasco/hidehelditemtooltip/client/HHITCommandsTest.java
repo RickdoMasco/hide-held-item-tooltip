@@ -1,12 +1,36 @@
 package com.rickdomasco.hidehelditemtooltip.client;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.lang.reflect.Proxy;
+import java.util.ArrayList;
+import java.util.List;
 import com.mojang.brigadier.CommandDispatcher;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
+import net.minecraft.network.chat.Component;
 import org.junit.jupiter.api.Test;
 
 class HHITCommandsTest {
+	@Test
+	void listWorksWithoutAnItemInTheMainHand() throws Exception {
+		List<String> feedback = new ArrayList<>();
+		FabricClientCommandSource source = (FabricClientCommandSource) Proxy.newProxyInstance(
+				FabricClientCommandSource.class.getClassLoader(),
+				new Class<?>[] {FabricClientCommandSource.class},
+				(proxy, method, arguments) -> {
+					if (method.getName().equals("sendFeedback"))
+						feedback.add(((Component) arguments[0]).getString());
+					return null;
+				});
+		CommandDispatcher<FabricClientCommandSource> dispatcher = new CommandDispatcher<>();
+		HHITCommands.register(dispatcher);
+
+		dispatcher.execute("hhit blacklist list", source);
+
+		assertEquals(List.of("HHIT: no saved exceptions"), feedback);
+	}
+
 	@Test
 	void registersTheLocalHhitCommandAndBlacklistSubcommands() {
 		CommandDispatcher<FabricClientCommandSource> dispatcher = new CommandDispatcher<>();

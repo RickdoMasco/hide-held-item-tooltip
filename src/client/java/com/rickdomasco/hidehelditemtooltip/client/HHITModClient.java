@@ -68,8 +68,8 @@ public class HHITModClient implements ClientModInitializer {
 		return BlacklistUpdateResult.CHANGED;
 	}
 
-	public static java.util.List<HHITItemBlacklist.Entry> getBlacklistedItems(ItemStack itemStack) {
-		return itemBlacklist.entriesFor(getItemId(itemStack), getCustomName(itemStack));
+	public static java.util.List<HHITItemBlacklist.Entry> getBlacklistedItems() {
+		return itemBlacklist.entries();
 	}
 
 	public static String getItemId(ItemStack itemStack) {
