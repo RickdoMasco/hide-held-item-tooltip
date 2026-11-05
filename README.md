@@ -14,9 +14,13 @@ Use the following local commands in chat:
 - `/hhit` toggles the setting
 - `/hhit on` forces the tooltip hidden
 - `/hhit off` forces the tooltip visible
+- `/hhit blacklist add` exempts the main-hand item from hiding
+- `/hhit blacklist remove` removes the matching exception
+- `/hhit blacklist list` shows all saved exceptions (works with an empty hand)
 
 The command is case-insensitive.
-Your preference is saved in `config/hhitmod.properties`.
+With no custom name, an exception applies to every item of that type. With a custom name, it applies only to that exact named item.
+Your preference and blacklist are saved in `config/hhitmod.properties`.
 
 ## Client safety
 
