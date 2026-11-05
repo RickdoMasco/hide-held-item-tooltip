@@ -1,10 +1,16 @@
 package com.rickdomasco.hidehelditemtooltip.client;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.StringReader;
+import com.mojang.brigadier.arguments.ArgumentType;
+import com.mojang.brigadier.builder.RequiredArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.brigadier.suggestion.Suggestions;
+import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import com.rickdomasco.hidehelditemtooltip.client.HHITModClient.BlacklistUpdateResult;
 import java.util.List;
-import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
-import net.fabricmc.fabric.api.client.command.v2.ClientCommands;
+import java.util.concurrent.CompletableFuture;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -15,14 +21,39 @@ public final class HHITCommands {
 	}
 
 	public static void register(CommandDispatcher<FabricClientCommandSource> dispatcher) {
-		dispatcher.register(ClientCommands.literal("hhit")
+		dispatcher.getRoot().addChild(literal("hhit")
 				.executes(context -> toggle(context.getSource()))
-				.then(ClientCommands.literal("on").executes(context -> setEnabled(context.getSource(), true)))
-				.then(ClientCommands.literal("off").executes(context -> setEnabled(context.getSource(), false)))
-				.then(ClientCommands.literal("blacklist")
-						.then(ClientCommands.literal("add").executes(context -> add(context.getSource())))
-						.then(ClientCommands.literal("remove").executes(context -> remove(context.getSource())))
-						.then(ClientCommands.literal("list").executes(context -> list(context.getSource())))));
+				.then(literal("on").executes(context -> setEnabled(context.getSource(), true)))
+				.then(literal("off").executes(context -> setEnabled(context.getSource(), false)))
+				.then(literal("blacklist")
+						.then(literal("add").executes(context -> add(context.getSource())))
+						.then(literal("remove").executes(context -> remove(context.getSource())))
+						.then(literal("list").executes(context -> list(context.getSource())))).build());
+	}
+
+	private static RequiredArgumentBuilder<FabricClientCommandSource, String> literal(String literal) {
+		ArgumentType<String> argumentType = new ArgumentType<>() {
+			@Override
+			public String parse(StringReader reader) throws CommandSyntaxException {
+				String input = reader.readUnquotedString();
+				if (!input.equalsIgnoreCase(literal))
+					throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.literalIncorrect().createWithContext(reader, literal);
+				return literal;
+			}
+
+			@Override
+			public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder) {
+				return literal.startsWith(builder.getRemainingLowerCase())
+						? builder.suggest(literal).buildFuture()
+						: Suggestions.empty();
+			}
+
+			@Override
+			public List<String> getExamples() {
+				return List.of(literal);
+			}
+		};
+		return RequiredArgumentBuilder.argument(literal, argumentType);
 	}
 
 	private static int toggle(FabricClientCommandSource source) {

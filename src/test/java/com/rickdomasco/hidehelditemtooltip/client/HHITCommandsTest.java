@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 class HHITCommandsTest {
 	@Test
-	void listWorksWithoutAnItemInTheMainHand() throws Exception {
+	void listAcceptsUpperAndMixedCaseWithoutPlayerHand() throws Exception {
 		List<String> feedback = new ArrayList<>();
 		FabricClientCommandSource source = (FabricClientCommandSource) Proxy.newProxyInstance(
 				FabricClientCommandSource.class.getClassLoader(),
@@ -26,9 +26,10 @@ class HHITCommandsTest {
 		CommandDispatcher<FabricClientCommandSource> dispatcher = new CommandDispatcher<>();
 		HHITCommands.register(dispatcher);
 
-		dispatcher.execute("hhit blacklist list", source);
+		dispatcher.execute("HHIT BLACKLIST LIST", source);
+		dispatcher.execute("HhIt BlAcKlIsT LiSt", source);
 
-		assertEquals(List.of("HHIT: no saved exceptions"), feedback);
+		assertEquals(List.of("HHIT: no saved exceptions", "HHIT: no saved exceptions"), feedback);
 	}
 
 	@Test
